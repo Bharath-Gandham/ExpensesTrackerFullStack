@@ -1,0 +1,86 @@
+<div class="col d-flex justify-content-center" style="padding-top: 5%;">
+  <div class="flex-column">
+    <div class="card" style="width: 18rem; border: none;">
+      <label class="error" id='loginError'
+        *ngIf="loginerror!=''&&loginerror!='Successfully LoggedIn'">*{{loginerror.substring(5)}}</label>
+      <label>Login Id: </label>
+      <input type="email" [(ngModel)]='loginId' name='loginId' id='loginId'>
+
+
+      <label>Password: </label>
+      <input type="password" [(ngModel)]='password'>
+
+      <button style="margin-top: 0.5cm;" (click)="login(loginId,password)">Login</button>
+      <p *ngFor="let expense of responseFromExpensesService">{{expense.expenseId}}</p>
+
+      <button style="margin-top: 0.5cm;" (click)="googleLogin()">
+        <a class="nav-link"><img class="m-1" width="18" alt="Google &quot;G&quot; Logo"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png">Sign
+          In</a>
+      </button>
+      <a class="card-link text-center pointer" style="margin-top: 0.5cm;" (click)="createNewUserClicked()">Create New
+        User?</a>
+    </div>
+
+
+    <div id="newUserCard" [hidden]="varForCreateNewUser!=true" class="card" style="width: 18rem; border: none;">
+      <div class="form-group">
+        <div>
+        <label class='error' *ngIf="createNewUserError!=''">{{createNewUserError.substring(5)}}</label>
+      </div>
+        <label>Login Id: </label>
+        <div class="input-group">
+          <input class="form-control" required #newUserloginId1='ngModel' type="email" [(ngModel)]='newUserloginId'
+            name='newUserloginId' id='newUserloginId'>
+          <span class='input-group-addon'>
+            <button class='form-control'>
+              <i *ngIf='!(regexNewUserID.test(newUserloginId))' style="color: red;" class="far fa-times-circle"></i>
+              <i *ngIf='regexNewUserID.test(newUserloginId)' style="color: green;" class="far fa-check-circle"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password: </label>
+        <div class="input-group">
+          <input class="form-control" required #newUserpassword1='ngModel' type="password"
+            [(ngModel)]='newUserpassword'>
+          <span class='input-group-addon'>
+            <button class='form-control'>
+              <i *ngIf='!(regex.test(newUserpassword))' style="color: red;" class="far fa-times-circle"></i>
+              <i *ngIf='regex.test(newUserpassword)' style="color: green;" class="far fa-check-circle"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Confirm Password: </label>
+        <div class="input-group">
+          <input class="form-control" required #newUserReEnterPassword1='ngModel' type="password"
+            [(ngModel)]='newUserReEnterPassword'>
+          <span class='input-group-addon'>
+            <button class='form-control'>
+              <i *ngIf='newUserReEnterPassword.length==0 || newUserpassword!=newUserReEnterPassword' style="color: red;"
+                class="far fa-times-circle"></i>
+              <i *ngIf="newUserReEnterPassword.length>0 && newUserpassword==newUserReEnterPassword"
+                style="color: green;" class="far fa-check-circle"></i>
+            </button>
+          </span>
+          <!-- <label class="error" id='passwordErrors'></label> -->
+        </div>
+      </div>
+
+
+        <button class='form-control'
+          [disabled]='!(regexNewUserID.test(newUserloginId)) || !(regex.test(newUserpassword)) || newUserReEnterPassword.length==0 || newUserpassword!=newUserReEnterPassword'
+          id='newUserCard'
+          (click)="createNewUser(newUserloginId,newUserpassword,newUserReEnterPassword)">Submit</button>
+          <button style="margin-top: 0.3cm;" (click)="cancelCreateNewUser()" class='form-control'>Cancel</button>
+
+    </div>
+  </div>
+</div>
+<!-- style="padding-top: 15%; padding-left: 25%;"
+ -->
